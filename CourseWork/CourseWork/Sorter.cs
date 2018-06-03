@@ -1,9 +1,11 @@
-﻿namespace CourseWork
+﻿using CourseWork.ThreadControllers;
+
+namespace CourseWork
 {
     class Sorter<T> where T : System.IComparable<T>
     {
-        private ThreadController<T> controller;
-        public Sorter(ThreadController<T> controller)
+        private IThreadController<T> controller;
+        public Sorter(IThreadController<T> controller)
         {
             this.controller = controller;
         }

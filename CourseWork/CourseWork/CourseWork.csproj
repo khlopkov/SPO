@@ -47,11 +47,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sorter.cs" />
-    <Compile Include="ThreadController.cs" />
+    <Compile Include="ThreadControllers\EventController.cs" />
+    <Compile Include="ThreadControllers\IThreadController.cs" />
+    <Compile Include="ThreadControllers\CriticalSectionController.cs" />
+    <Compile Include="ThreadControllers\MutexController.cs" />
+    <Compile Include="ThreadControllers\SemaphoreController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

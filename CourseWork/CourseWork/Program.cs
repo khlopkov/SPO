@@ -1,88 +1,58 @@
-﻿using System;
+﻿using CourseWork.ThreadControllers;
+using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace CourseWork
 {
     class Program
     {
-        static void PrintMenu()
+        static void DrawHeader()
         {
-            Console.WriteLine("1. Show generated array");
-            Console.WriteLine("2. Run sorting");
+            Console.WriteLine("┌──────────────────────┬──────────────┐");
+            Console.WriteLine("│ Method               │ Time(ms)     │");
+            Console.WriteLine("├──────────────────────┼──────────────┤");
         }
-        static void PrintArray(int[] arr)
+        static void DrawLine(string methodName, int time)
         {
-            foreach (int elem in arr)
-            {
-                Console.Write(elem);
-                Console.Write(" ");
-            }
-        }
-        static void RunMultiThreading(int[] arr, int key)
-        {
-            ThreadController<int> u = new CourseWork.ThreadController<int>();
-            int[] arr1 = arr;
-            int[] arr2 = new int[arr1.Length];
-            Array.Copy(arr1, arr2, arr1.Length);
-            Thread sortMergeThread = new Thread(new ParameterizedThreadStart(u.RunSortMerge));
-            sortMergeThread.Name = "Merge sort thread";
-            Thread sortShellThread = new Thread(new ParameterizedThreadStart(u.RunSortShell));
-            sortShellThread.Name = "Shell's sort thread";
-            Thread findThread = new Thread(new ParameterizedThreadStart(u.RunFind));
-            findThread.Name = "find";
-            sortMergeThread.Start(arr1);
-            sortShellThread.Start(arr2);
-            findThread.Start(key);
-            sortMergeThread.Join();
-            sortShellThread.Join();
-            findThread.Join();
+
         }
         static void Main(string[] args)
         {
-            Console.BufferHeight = 10000;
-            int[] arr = generateArr(1000);
-            int key = 0;
-            int choosedItem = 0;
-            while (choosedItem != 2)
-            {
-                PrintMenu();
-                try
-                {
-                    choosedItem = Convert.ToInt16(Console.ReadLine());
-                }
-                catch(FormatException e)
-                {
-                    Console.WriteLine("Incorrect item");
-                    continue;
-                }
-                if (choosedItem == 1)
-                {
-                    PrintArray(arr);
-                }
-                if (choosedItem == 2)
-                {
-                    while (true)
-                    {
-                        Console.WriteLine("Input key, which you want to find in array");
-                        try
-                        {
-                            key = Convert.ToInt16(Console.ReadLine());
-                            break;
-                        }
-                        catch(FormatException e)
-                        {
-                            Console.WriteLine("Incorrect key");
-                        }
-                    }
-                    RunMultiThreading(arr, key);
-                }
-            }
-            Console.WriteLine("Press enter to print sorted array");
-            Console.ReadLine();
-            PrintArray(arr);
-            Console.ReadLine();
+            int[] arr = GenerateArray(1000);
+            IThreadController<int> threadController = new EventController<int>();
+            Console.Write("Events: ");
+            Console.WriteLine(RunThread(threadController, arr, 100));
+            threadController = new SemaphoreController<int>();
+            Console.Write("Semaphores: ");
+            Console.WriteLine(RunThread(threadController, arr, 100));
+            threadController = new MutexController<int>();
+            Console.Write("Mutexes: ");
+            Console.WriteLine(RunThread(threadController, arr, 100));
+            threadController = new CriticalSectionController<int>();
+            Console.Write("Critical sections: ");
+            Console.WriteLine(RunThread(threadController, arr, 100));
+            Console.ReadKey();
         }
-        private static int[] generateArr(int n)
+        private static long RunThread(IThreadController<int> controller, int[] arr, int key)
+        {
+            int[] arr1 = new int[arr.Length];
+            Array.Copy(arr, arr1, arr1.Length);
+            int[] arr2 = new int[arr.Length];
+            Array.Copy(arr, arr2, arr1.Length);
+            Thread threadMerge = new Thread(new ParameterizedThreadStart(controller.RunSortMerge));
+            Thread threadShell = new Thread(new ParameterizedThreadStart(controller.RunSortShell));
+            Thread threadFind = new Thread(new ParameterizedThreadStart(controller.RunFind));
+            Stopwatch time = Stopwatch.StartNew();
+            threadMerge.Start(arr1);
+            threadFind.Start(key);
+            threadShell.Start(arr2);
+            threadFind.Join();
+            time.Stop();
+            return time.ElapsedMilliseconds;
+
+        }
+        private static int[] GenerateArray(int n)
         {
             Random rnd = new Random();
             int[] arr = new int[n];
