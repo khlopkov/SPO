@@ -1,0 +1,6 @@
+C:\Users\asus\Documents\study\4 семестр\СПО\lab3\asmLabs\asmLabs\bin\Debug\asmLabs.exe.config
+C:\Users\asus\Documents\study\4 семестр\СПО\lab3\asmLabs\asmLabs\bin\Debug\asmLabs.exe
+C:\Users\asus\Documents\study\4 семестр\СПО\lab3\asmLabs\asmLabs\bin\Debug\asmLabs.pdb
+C:\Users\asus\Documents\study\4 семестр\СПО\lab3\asmLabs\asmLabs\obj\Debug\asmLabs.csprojResolveAssemblyReference.cache
+C:\Users\asus\Documents\study\4 семестр\СПО\lab3\asmLabs\asmLabs\obj\Debug\asmLabs.exe
+C:\Users\asus\Documents\study\4 семестр\СПО\lab3\asmLabs\asmLabs\obj\Debug\asmLabs.pdb

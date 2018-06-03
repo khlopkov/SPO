@@ -1,0 +1,4 @@
+﻿  lab4.cpp
+c:\users\asus\documents\study\4 семестр\спо\lab4\lab4\lab4.cpp(51): warning C4800: BOOL: принудительно задано логическое значение "true" или "false" (предупреждение о производительности)
+  lab4.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab4\Debug\lab4.exe
+  lab4.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab4\Debug\lab4.pdb (Full PDB)

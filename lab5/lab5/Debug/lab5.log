@@ -1,0 +1,7 @@
+﻿  lab5.cpp
+c:\users\asus\documents\study\4 семестр\спо\lab5\lab5\lab5.cpp(26): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\asus\documents\study\4 семестр\спо\lab5\lab5\lab5.cpp(22): warning C4101: gap: неиспользованная локальная переменная
+c:\users\asus\documents\study\4 семестр\спо\lab5\lab5\lab5.cpp(22): warning C4101: i: неиспользованная локальная переменная
+c:\users\asus\documents\study\4 семестр\спо\lab5\lab5\lab5.cpp(95): warning C4172: возвращение адреса локальной или временной переменной : arr
+  lab5.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab5\Debug\lab5.exe
+  lab5.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab5\Debug\lab5.pdb (Full PDB)

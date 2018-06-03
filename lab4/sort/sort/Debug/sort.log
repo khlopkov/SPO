@@ -1,0 +1,6 @@
+﻿  main.cpp
+c:\users\asus\documents\study\4 семестр\спо\lab4\sort\sort\main.cpp(30): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\asus\documents\study\4 семестр\спо\lab4\sort\sort\main.cpp(25): warning C4101: gap: неиспользованная локальная переменная
+c:\users\asus\documents\study\4 семестр\спо\lab4\sort\sort\main.cpp(25): warning C4101: i: неиспользованная локальная переменная
+  sort.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab4\sort\Debug\sort.exe
+  sort.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab4\sort\Debug\sort.pdb (Full PDB)

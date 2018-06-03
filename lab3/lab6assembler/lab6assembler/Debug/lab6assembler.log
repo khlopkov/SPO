@@ -1,0 +1,7 @@
+﻿  Assembling lab6.asm...
+lab6.asm(218): warning A5000: @@: label defined but not referenced
+lab6.asm(269): warning A6004: procedure argument or local not referenced : sign
+lab6.asm(269): warning A6004: procedure argument or local not referenced : tmp2
+lab6.asm(269): warning A6004: procedure argument or local not referenced : tmp3
+  lab6assembler.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab3\lab6assembler\Debug\lab6assembler.dll
+  lab6assembler.vcxproj -> C:\Users\asus\Documents\study\4 семестр\СПО\lab3\lab6assembler\Debug\lab6assembler.pdb (Full PDB)

@@ -1,0 +1,6 @@
+C:\Users\asus\Documents\study\4 семестр\СПО\CourseWork\CourseWork\bin\Debug\CourseWork.exe.config
+C:\Users\asus\Documents\study\4 семестр\СПО\CourseWork\CourseWork\bin\Debug\CourseWork.exe
+C:\Users\asus\Documents\study\4 семестр\СПО\CourseWork\CourseWork\bin\Debug\CourseWork.pdb
+C:\Users\asus\Documents\study\4 семестр\СПО\CourseWork\CourseWork\obj\Debug\CourseWork.csprojResolveAssemblyReference.cache
+C:\Users\asus\Documents\study\4 семестр\СПО\CourseWork\CourseWork\obj\Debug\CourseWork.exe
+C:\Users\asus\Documents\study\4 семестр\СПО\CourseWork\CourseWork\obj\Debug\CourseWork.pdb
