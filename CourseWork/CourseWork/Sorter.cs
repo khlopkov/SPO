@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace CourseWork
+﻿namespace CourseWork
 {
-    class Sorter
+    class Sorter<T> where T : System.IComparable<T>
     {
-        private ThreadController controller;
-        public Sorter(ThreadController controller)
+        private ThreadController<T> controller;
+        public Sorter(ThreadController<T> controller)
         {
             this.controller = controller;
         }
-        private void merge(int[] arr, int left, int mid, int right)
+        private void merge(T [] arr, int  left, int mid, int right)
         {
             int it1 = 0, it2 = 0;
-            int[] result = new int[right - left];
+            T[] result = new T[right - left];
             while ((left + it1 < mid) && (mid + it2 < right))
             {
-                if (arr[left + it1] < arr[mid + it2])
+                if (arr[left + it1].CompareTo(arr[mid + it2]) < 0)
                 {
                     result[it1 + it2] = arr[left + it1];
                     it1 += 1;
@@ -45,7 +38,7 @@ namespace CourseWork
                 arr[left + i] = result[i];
         }
 
-        public void SortMerge(int[] arr)
+        public void SortMerge(T[] arr)
         {
             int n = arr.Length;
             int itterations = 0;
@@ -64,7 +57,7 @@ namespace CourseWork
                 }
             }
         }
-        public void SortShell(int[] arr)
+        public void SortShell(T[] arr)
         {
             int n = arr.Length;
             int itteration = 0;
@@ -72,11 +65,11 @@ namespace CourseWork
             {
                 for (int i = k; i < n; i++)
                 {
-                    int t = arr[i];
+                    T t = arr[i];
                     int j = i;
                     for (j = i; j >= k; j -= k)
                     {
-                        if (t < arr[j - k])
+                        if (t.CompareTo(arr[j - k]) < 0)
                         {
                             arr[j] = arr[j - k];
                         }

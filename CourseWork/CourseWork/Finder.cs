@@ -6,28 +6,23 @@ using System.Threading.Tasks;
 
 namespace CourseWork
 {
-    class Finder
+    class Finder<T> where T : System.IComparable<T>
     {
-        private ThreadController controller;
-        public Finder(ThreadController controller)
+        private ThreadController<T> controller;
+        public Finder(ThreadController<T> controller)
         {
             this.controller = controller;
         }
-        public int Find(int key, int[] arr)
+        public T Find(T key, T[] arr)
         {
             for (int i = 0; i < arr.Length; i++)
             {
-                if (arr[i] == key)
+                if (arr[i].CompareTo(key) == 0)
                 {
                     return arr[i];
                 }
-                else
-                {
-                    if (i == arr.Length - 1)
-                        Console.WriteLine("No such key");
-                }
             }
-            return -1;
+            throw new KeyNotFoundException("Key not Found");
         }
     }
 }

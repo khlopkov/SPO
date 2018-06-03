@@ -1,46 +1,48 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace CourseWork
 {
-    class ThreadController
+    class ThreadController<T> where T : System.IComparable<T>
     {
         static AutoResetEvent waitChangeHandler = new AutoResetEvent(false);
         static AutoResetEvent waitFindHandler = new AutoResetEvent(true);
         bool firstSorting = true, secondSorting = true;
-        private Sorter sorter;
-        private Finder finder;
+        private Sorter<T> sorter;
+        private Finder<T> finder;
+        T[] m1;
         public ThreadController()
         {
-            sorter = new Sorter(this);
-            finder = new Finder(this);
+            sorter = new Sorter<T>(this);
+            finder = new Finder<T>(this);
         }
-        int[] m1;
+        
         public void RunFind(object obj)
         {
-            int key = (int)obj;
+            T key = (T)obj;
             while (firstSorting || secondSorting) {
                 waitChangeHandler.WaitOne();
                 waitChangeHandler.Reset();
                 Console.Write("Trying to find key... ");
-                int foundKey = finder.Find(key, this.m1);
-                if (foundKey != -1)
+                try
                 {
+                    T foundKey = finder.Find(key, this.m1);
                     Console.WriteLine("Key has found");
                 }
-                else
+                catch (KeyNotFoundException e)
                 {
                     Console.WriteLine("Key hasn't found");
                 }
                 waitFindHandler.Set();
             }
         }
-        public void Change(int[] arr)
+        public void Change(T[] arr)
         {
             waitFindHandler.WaitOne();
             waitFindHandler.Reset();
             Console.WriteLine("Changing array by " + Thread.CurrentThread.Name);
-            m1 = new int[arr.Length];
+            m1 = new T[arr.Length];
             Array.Copy(arr, m1, arr.Length);
             waitChangeHandler.Set();
         }
@@ -77,14 +79,14 @@ namespace CourseWork
 
         public void RunSortMerge(object obj)
         {
-            int[] arr = (int[]) obj;
+            T[] arr = (T[]) obj;
             sorter.SortMerge(arr);
             firstSorting = false;
         }
 
         public void RunSortShell(object obj)
         {
-            int[] arr = (int[])obj;
+            T[] arr = (T[])obj;
             sorter.SortShell(arr);
             secondSorting = false;
         }
