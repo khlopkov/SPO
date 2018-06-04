@@ -10,10 +10,11 @@ namespace CourseWork.ThreadControllers
     class SemaphoreController<T> : IThreadController<T> where T : System.IComparable<T>
     {
         Semaphore waitChangeHandler = new Semaphore(1,1);
-        bool firstSorting = true, secondSorting = true;
+        volatile bool firstSorting = true, secondSorting = true;
         private Sorter<T> sorter;
         private Finder<T> finder;
-        T[] m1;
+        volatile T[] m1;
+        AutoResetEvent findEvent = new AutoResetEvent(false);
         public SemaphoreController()
         {
             sorter = new Sorter<T>(this);
@@ -23,9 +24,10 @@ namespace CourseWork.ThreadControllers
         public void RunFind(object obj)
         {
             T key = (T)obj;
-            Thread.Sleep(1);
+            Thread.Sleep(2);
             while (firstSorting || secondSorting)
             {
+                findEvent.WaitOne();
                 waitChangeHandler.WaitOne();
                 try
                 {
@@ -41,9 +43,11 @@ namespace CourseWork.ThreadControllers
         {
             
             waitChangeHandler.WaitOne();
-            m1 = new T[arr.Length];
+            if (m1 == null)
+                m1 = new T[arr.Length];
             Array.Copy(arr, m1, arr.Length);
             waitChangeHandler.Release();
+            findEvent.Set();
         }
 
         public void RunSortMerge(object obj)

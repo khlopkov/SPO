@@ -11,28 +11,42 @@ namespace CourseWork
         {
             Console.WriteLine("┌──────────────────────┬──────────────┐");
             Console.WriteLine("│ Method               │ Time(ms)     │");
-            Console.WriteLine("├──────────────────────┼──────────────┤");
         }
-        static void DrawLine(string methodName, int time)
+        static void DrawLine(string methodName, long time)
         {
-
+            Console.WriteLine("├──────────────────────┼──────────────┤");
+            Console.Write("│ " + methodName);
+            for (int i = 0; i < 21 - methodName.Length; i++)
+            {
+                Console.Write(" ");
+            }
+            Console.Write("│ " + time.ToString());
+            for (int i = 0; i < 13 - time.ToString().Length; i++)
+            {
+                Console.Write(" ");
+            }
+            Console.WriteLine("│");
+        }
+        static void DrawFooter()
+        {
+            Console.WriteLine("└──────────────────────┴──────────────┘");
         }
         static void Main(string[] args)
         {
             int[] arr = GenerateArray(1000);
+            Console.WriteLine("Please, input key to find in generated array");
+            int key = Convert.ToInt32(Console.ReadLine());
             IThreadController<int> threadController = new EventController<int>();
-            Console.Write("Events: ");
-            Console.WriteLine(RunThread(threadController, arr, 100));
+            DrawHeader();
+            DrawLine("Events", RunThread(threadController, arr, key));
             threadController = new SemaphoreController<int>();
-            Console.Write("Semaphores: ");
-            Console.WriteLine(RunThread(threadController, arr, 100));
+            DrawLine("Semaphores", RunThread(threadController, arr, key));
             threadController = new MutexController<int>();
-            Console.Write("Mutexes: ");
-            Console.WriteLine(RunThread(threadController, arr, 100));
+            DrawLine("Mutexes", RunThread(threadController, arr, key));
             threadController = new CriticalSectionController<int>();
-            Console.Write("Critical sections: ");
-            Console.WriteLine(RunThread(threadController, arr, 100));
-            Console.ReadKey();
+            DrawLine("Critical sections", RunThread(threadController, arr, key));
+            DrawFooter();
+            Console.ReadLine();
         }
         private static long RunThread(IThreadController<int> controller, int[] arr, int key)
         {
@@ -48,6 +62,8 @@ namespace CourseWork
             threadFind.Start(key);
             threadShell.Start(arr2);
             threadFind.Join();
+            threadShell.Join();
+            threadMerge.Join();
             time.Stop();
             return time.ElapsedMilliseconds;
 

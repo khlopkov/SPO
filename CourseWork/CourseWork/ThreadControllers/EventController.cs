@@ -8,10 +8,10 @@ namespace CourseWork.ThreadControllers
     {
         AutoResetEvent waitChangeHandler = new AutoResetEvent(false);
         AutoResetEvent waitFindHandler = new AutoResetEvent(true);
-        bool firstSorting = true, secondSorting = true;
+        volatile bool firstSorting = true, secondSorting = true;
         private Sorter<T> sorter;
         private Finder<T> finder;
-        T[] m1;
+        volatile T[] m1;
         public EventController()
         {
             sorter = new Sorter<T>(this);
@@ -38,7 +38,8 @@ namespace CourseWork.ThreadControllers
         {
             waitFindHandler.WaitOne();
             waitFindHandler.Reset();
-            m1 = new T[arr.Length];
+            if (m1 == null)
+                m1 = new T[arr.Length];
             Array.Copy(arr, m1, arr.Length);
             waitChangeHandler.Set();
         }

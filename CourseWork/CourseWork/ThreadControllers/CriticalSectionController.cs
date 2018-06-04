@@ -9,13 +9,13 @@ namespace CourseWork.ThreadControllers
 {
     class CriticalSectionController<T> : IThreadController<T> where T : System.IComparable<T>
     {
-        
-        bool firstSorting = true, secondSorting = true;
+        bool changingInitially = true;
+        volatile bool firstSorting = true, secondSorting = true;
         private Sorter<T> sorter;
         private Finder<T> finder;
-        static object changeLocker = new object();
-        static object findLocker = new object();
-        T[] m1;
+        volatile static object changeLocker = new object();
+        AutoResetEvent findEvent = new AutoResetEvent(false);
+        volatile T[]  m1;
         public CriticalSectionController()
         {
             sorter = new Sorter<T>(this);
@@ -24,30 +24,42 @@ namespace CourseWork.ThreadControllers
         public void RunFind(object obj)
         {
             T key = (T)obj;
-            Thread.Sleep(1);
             while (firstSorting || secondSorting)
             {
-                lock (findLocker)
+                bool findingInitially = true;
+                findEvent.WaitOne();
+                lock (changeLocker)
                 {
+                    if (findingInitially)
+                    {
+                        Monitor.PulseAll(changeLocker);
+                        findingInitially = false;
+                    }
                     try
                     {
                         T foundKey = finder.Find(key, this.m1);
-                        
+
                     }
                     catch (KeyNotFoundException e)
                     {
                         
                     }
+                    Monitor.PulseAll(changeLocker);
                 }
                 
             }
         }
         public void Change(T[] arr)
         {
-            lock (findLocker)
+            lock (changeLocker)
             {
-                m1 = new T[arr.Length];
+                if (!changingInitially)
+                    Monitor.Wait(changeLocker, 100);
+                else changingInitially = false;
+                if (m1 == null)
+                    m1 = new T[arr.Length];
                 Array.Copy(arr, m1, arr.Length);
+                findEvent.Set();
             }
         }
 
